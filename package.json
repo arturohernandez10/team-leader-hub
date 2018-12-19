@@ -1,0 +1,16 @@
+{
+  "name": "team-leader-hub",
+  "version": "1.0.0",
+  "dependencies": {
+    "vue": "^2.5.21",
+    "vue-hot-reload-api": "^2.3.1",
+    "vue-material": "latest"
+  },
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^2.3.1",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "parcel-bundler": "^1.10.3",
+    "vue-template-compiler": "^2.5.21"
+  }
+}
