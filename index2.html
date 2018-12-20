@@ -47,6 +47,7 @@
 
             let loadFrame = (frame) => {
                 let srcLink = {
+                    'home':'',
                     'marketing':'https://huddle.sportclips.com/login-page.aspx',
                     'market':'https://www.sportclips.com/CommonLogin/login?ReturnUrl=%2Fadmin%2Fdefault.aspx&SiteId=3154f49d-8e0a-43df-ac87-aeef8c0dcfaa',
                     'survey':'https://app.listen360.com',
@@ -60,12 +61,13 @@
                 console.log(srcLink);
 
                 $('#frame')[0].onload = () => {
-                    $('#frame').animate({'opacity': 1}, 500);
+                    if (frame !== 'home')
+                        $('#frame').animate({'opacity': 1}, 500);
                 };
                 $('#frame').css({'opacity': 0});
                 $('.iframe-loading').css({'opacity': 0});
                 $('#frame')[0].src = srcLink;
-                $('.iframe-loading').animate({'opacity': 1}, 200);
+                $('.iframe-loading').css({'opacity': 1});
             }
 
             $( window ).resize(function() {
@@ -103,28 +105,28 @@
             background:url(/images/sportclips.png) center center no-repeat;
         }
     </style>
-    <img id="sclogo" src="/images/sportclips.png"/>
+    <!--img id="sclogo" src="/images/sportclips.png"/-->
 
     <div>
 
     </div>
 
     <nav id="close-nav" class="navbar navbar-expand-lg navbar-light bg-light md-large-hide">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Leader hub</a>
         <button id="close-button" class="navbar-toggler" type="button">
             <span>X</span>
         </button>
     </nav>
 
     <nav id="menu" class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Leader hub</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item" class="active"><a  class="nav-link" href="#">Home</a></li>
+                <li class="nav-item" class="active"><a class="nav-link" id="home" href="#">Home</a></li>
                 <li class="nav-item"><a class="nav-link" id="marketing" href="#">Marketing</a></li>
                 <li class="nav-item"><a class="nav-link" id="market" href="#">Marketing 2</a></li>
                 <li class="nav-item"><a class="nav-link" id="survey" href="#">Survey</a></li>
@@ -139,7 +141,7 @@
     </nav>
 
     <div class="container-fluid iframe-loading">
-        <iframe id="frame" src="https://www.clearlaunch.com"/>
+        <iframe id="frame" src=""/>
     </div>
 </body>
 </html>
