@@ -2,28 +2,51 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
     <meta charset="UTF-8">
     <title>Title</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-    <script
-            src="https://code.jquery.com/jquery-2.2.4.min.js"
-            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://rawgit.com/maciej-gurban/responsive-bootstrap-toolkit/master/dist/bootstrap-toolkit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 </head>
 <body>
     <script type="application/javascript">
-        $(function() {
-            $('li > a').click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
+
+        $(document).ready(function(){
+            let hasBurger = () => window.innerWidth<=991;
+            let menuShown = true;
+
+            let drawMenu = () => {
+                if (!hasBurger()){
+                    $('#close-nav').hide();
+                    $('#menu').show();
+                    $('#sclogo').show();
+                    return;
+                }
+
+                $('#sclogo').hide();
+                if (menuShown) {
+                    $('#navbarSupportedContent').collapse('show');
+                    $('#close-nav').hide();
+                    $('#frame').hide();
+                    $('#menu').show();
+                } else {
+                    $('#navbarSupportedContent').collapse('hide');
+                    $('#frame').show();
+                    $('#navbarSupportedContent').on('hidden.bs.collapse', () => {
+                        $('#close-nav').show();
+                        $('#menu').hide();
+                    });
+                }
+            };
+
+            let loadFrame = (frame) => {
                 let srcLink = {
                     'marketing':'https://huddle.sportclips.com/login-page.aspx',
                     'market':'https://www.sportclips.com/CommonLogin/login?ReturnUrl=%2Fadmin%2Fdefault.aspx&SiteId=3154f49d-8e0a-43df-ac87-aeef8c0dcfaa',
@@ -34,10 +57,28 @@
                     'finance':'https://members.myprofitkeeper.com/',
                     'huddle':'https://huddle.sportclips.com/login-page.aspx',
                     'recruiting':'https://www.screports.com/login.php'
-                }[e.target.id];
+                }[frame];
                 console.log(srcLink);
                 $('#frame')[0].src = srcLink;
+            }
+
+            $( window ).resize(function() {
+                if (!hasBurger())
+                    menuShown = true;
+                drawMenu();
+            });
+
+            $('#close-button').click(() => {
+                menuShown = true;
+                drawMenu();
+            });
+            $('li > a').on('click',function (e) {
+                menuShown = false;
+                drawMenu();
+                loadFrame(e.target.id);
             })
+
+            drawMenu();
         });
     </script>
     <style type="text/css" media="screen">
@@ -47,38 +88,44 @@
             border: unset;
             border-image: unset;
         }
+
+        .close-button {
+            color: white;
+            font-size: large;
+        }
     </style>
-    <img src="/images/sportclips.png"/>
+    <img id="sclogo" src="/images/sportclips.png"/>
 
     <div>
 
     </div>
-    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li role="presentation" class="active"><a href="#">Home</a></li>
-                    <li role="presentation"><a id="marketing" href="#">Marketing</a></li>
-                    <li role="presentation"><a id="market" href="#">Marketing 2</a></li>
-                    <li role="presentation"><a id="survey" href="#">Survey</a></li>
-                    <li role="presentation"><a id="pos" href="#">Salon POS</a></li>
-                    <li role="presentation"><a id="training" href="#">Training</a></li>
-                    <li role="presentation"><a id="profile" href="#">Profile</a></li>
-                    <li role="presentation"><a id="finance" href="#">Finance</a></li>
-                    <li role="presentation"><a id="huddle" href="#">SCI Huddle</a></li>
-                    <li role="presentation"><a id="recruiting" href="#">Recruiting</a></li>
-                </ul>
-            </div>
+    <nav id="close-nav" class="navbar navbar-expand-lg navbar-light bg-light md-large-hide">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button id="close-button" class="navbar-toggler" type="button">
+            <span>X</span>
+        </button>
+    </nav>
+
+    <nav id="menu" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" class="active"><a  class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" id="marketing" href="#">Marketing</a></li>
+                <li class="nav-item"><a class="nav-link" id="market" href="#">Marketing 2</a></li>
+                <li class="nav-item"><a class="nav-link" id="survey" href="#">Survey</a></li>
+                <li class="nav-item"><a class="nav-link" id="pos" href="#">Salon POS</a></li>
+                <li class="nav-item"><a class="nav-link" id="training" href="#">Training</a></li>
+                <li class="nav-item"><a class="nav-link" id="profile" href="#">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" id="finance" href="#">Finance</a></li>
+                <li class="nav-item"><a class="nav-link" id="huddle" href="#">SCI Huddle</a></li>
+                <li class="nav-item"><a class="nav-link" id="recruiting" href="#">Recruiting</a></li>
+            </ul>
         </div>
     </nav>
 
