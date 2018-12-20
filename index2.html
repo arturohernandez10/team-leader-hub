@@ -60,18 +60,39 @@
                 }[frame];
                 console.log(srcLink);
 
-                $('#frame')[0].onload = () => {
+                let loading = false;
+
+                let showFrame = () => {
+                    if (!loading)
+                        return;
                     if (frame !== 'home')
                         $('#frame').animate({'opacity': 1}, 500);
+
+                    loading = false;
                 };
-                $('#frame').css({'opacity': 0});
-                $('.iframe-loading').css({'opacity': 0});
-                $('#frame')[0].src = srcLink;
+                
+                let startToLoad = (_srcLink) => {
+
+                    loading = true;
+                    // both invisible
+                    $('#frame').css({'opacity': 0});
+                    $('.iframe-loading').css({'opacity': 0});
+                    // start loading
+                    $('#frame')[0].src = _srcLink;
+                    // show logo
+                    $('.iframe-loading').css({'opacity': 1});
+                };
+
+                startToLoad(srcLink);
+                // show frame after 5 seconds
                 setTimeout(() => {
-                    $('#frame').animate({'opacity': 1}, 500)
-                }, 3000);
-                $('#frame').animate({'opacity': 1}, 500);
-                $('.iframe-loading').css({'opacity': 1});
+                    showFrame();
+                }, 5000);
+                // show frame .5 seconds after loaded
+                $('#frame')[0].onload = () => {
+                    showFrame();
+                };
+
             }
 
             $( window ).resize(function() {
