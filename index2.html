@@ -67,6 +67,10 @@
                 $('#frame').css({'opacity': 0});
                 $('.iframe-loading').css({'opacity': 0});
                 $('#frame')[0].src = srcLink;
+                setTimeout(() => {
+                    $('#frame').animate({'opacity': 1}, 500)
+                }, 3000);
+                $('#frame').animate({'opacity': 1}, 500);
                 $('.iframe-loading').css({'opacity': 1});
             }
 
@@ -103,6 +107,7 @@
         }
         .iframe-loading {
             background:url(/images/sportclips.png) center center no-repeat;
+            padding: 0px;
         }
     </style>
     <!--img id="sclogo" src="/images/sportclips.png"/-->
