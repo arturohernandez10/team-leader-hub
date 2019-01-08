@@ -17,6 +17,10 @@
     <script type="application/javascript">
 
         $(document).ready(function(){
+            let menuHeight = parseInt($("#menu").css("height").replace("px",""));
+            $('#frame').width($(window).width());
+            $('#frame').height($(window).height()-menuHeight - 1);
+            $('#frame').css({top : menuHeight + 1});
             let hasBurger = () => window.innerWidth<=991;
             let menuShown = true;
 
@@ -46,14 +50,13 @@
 
             let loadFrame = (frame) => {
                 let srcLink = {
-                    'home':'',
-                    'marketing':'https://huddle.sportclips.com/login-page.aspx',
-                    'market':'https://www.sportclips.com/CommonLogin/login?ReturnUrl=%2Fadmin%2Fdefault.aspx&SiteId=3154f49d-8e0a-43df-ac87-aeef8c0dcfaa',
-                    'survey':'https://app.listen360.com',
+                    'sc-home':'/Home.html',
+                    'marketing-BAM':'https://sportclipsmp.saepio.com/marketport/',
+                    'marketing-iApps':'https://www.sportclips.com/CommonLogin/login?ReturnUrl=%2Fadmin%2Fdefault.aspx&SiteId=3154f49d-8e0a-43df-ac87-aeef8c0dcfaa',
+                    'survey':'/NotWorking.html',
                     'pos':'https://sportclips-central.salonultimate.com/',
                     'training':'https://sportclips.tortal.net/',
-                    'profile':'http://www.clearlaunch.com',
-                    'finance':'https://members.myprofitkeeper.com/',
+                    'finance':'/NotWorking.html',
                     'huddle':'https://huddle.sportclips.com/login-page.aspx',
                     'recruiting':'https://www.screports.com/login.php'
                 }[frame];
@@ -76,6 +79,7 @@
                     loading = true;
                     // both invisible
                     $('#frame').css({'opacity': 0});
+
                     $('.loading-content').css({'opacity': 0});
                     // start loading
                     $('#frame')[0].src = _srcLink;
@@ -90,9 +94,16 @@
                 }, 5000);
                 // show frame .5 seconds after loaded
                 $('#frame')[0].onload = () => {
-                    showFrame(frame);
+                    if (frame !== "sc-home"){
+                        showFrame(frame);
+                        return;
+                    }
+                    /*setTimeout(() => {
+                        showFrame(frame);
+                    }, 3000);*/
                 };
-
+                ;
+                $('body').on('Hello', () => showFrame(frame));
             }
 
             $( window ).resize(function() {
@@ -120,6 +131,17 @@
             height: -webkit-fill-available;
             border: unset;
             border-image: unset;
+        }
+
+        @supports (-ms-ime-align:auto) {
+            iframe {
+                position: absolute;
+                top: 2em;
+                left: 0;
+                bottom: 0;
+                right: 0;
+            }
+
         }
 
         .close-button {
@@ -164,10 +186,10 @@
 
         .loading-message {
             position: absolute;
+            top: 65vh;
             height: auto;
             width: 100%;
             text-align: center;
-            line-height: 120vh;
             font-size: 3em;
         }
     </style>
@@ -186,13 +208,12 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item" class="active"><a class="nav-link" id="home" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" id="marketing" href="#">Marketing</a></li>
-                <li class="nav-item"><a class="nav-link" id="market" href="#">Marketing 2</a></li>
+                <li class="nav-item" class="active"><a class="nav-link" id="sc-home" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" id="marketing-BAM" href="#">BAM</a></li>
+                <li class="nav-item"><a class="nav-link" id="marketing-iApps" href="#">iApps</a></li>
                 <li class="nav-item"><a class="nav-link" id="survey" href="#">Survey</a></li>
                 <li class="nav-item"><a class="nav-link" id="pos" href="#">Salon POS</a></li>
                 <li class="nav-item"><a class="nav-link" id="training" href="#">Training</a></li>
-                <li class="nav-item"><a class="nav-link" id="profile" href="#">Profile</a></li>
                 <li class="nav-item"><a class="nav-link" id="finance" href="#">Finance</a></li>
                 <li class="nav-item"><a class="nav-link" id="huddle" href="#">SCI Huddle</a></li>
                 <li class="nav-item"><a class="nav-link" id="recruiting" href="#">Recruiting</a></li>
@@ -205,7 +226,7 @@
             <div class="lds-dual-ring"></div>
             <div class="loading-message">Loading...</div>
         </div>
-        <iframe id="frame" src=""></iframe>
+        <iframe id="frame" src="/Home.html"></iframe>
     </div>
 </body>
 </html>
