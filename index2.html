@@ -74,7 +74,10 @@
             }
 
             let loadFrame = (frame) => {
-                draw();
+                if (!/Mobi/.test(navigator.userAgent)) {
+                    // not mobile!
+                    draw();
+                }
 
                 let srcLink = getSrcLink(frame);
                 let loading = false;
